@@ -11,6 +11,7 @@ class Listing(models.Model):
          
         class Meta:
                 ordering = ['-created_at']
+                
         def __str__(self):
                 return self.title
 class Booking(models.Model):
@@ -39,11 +40,11 @@ class Review(models.Model):
         reviewer_name = models.CharField(max_length=50)
         rating = models.PositiveIntegerField(choices=[(i,i) for i in range(1,6)])
         comment = models.TextField()
-        date_created = models.DateTimeField(auto_now_add=True)
+        created_at = models.DateTimeField(auto_now_add=True)
         listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='reviews')
 
         class Meta:
                  ordering = ['-created_at', '-rating'] # Order by creation, then by rating
 
         def __str__(self):
-                return f"{self.reviewer_name} - {self.rating}"
+                return f"{self.reviewer_name} for {self.listing.title}  - {self.rating}"
